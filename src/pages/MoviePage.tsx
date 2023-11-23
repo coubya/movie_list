@@ -1,10 +1,8 @@
-import BackButton from "../components/BackButton"
 import MovieDetails from "../components/MovieDetails"
 
 function MoviePage() {
     return (
-        <div>
-            <BackButton />
+        <div className="bg-light dark:bg-dark">
             <MovieDetails />
         </div>
     )

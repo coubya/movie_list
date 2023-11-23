@@ -1,56 +1,43 @@
 import { useQuery } from "react-query";
 import { getMovieCredits, getMovieDetails, getMovieImages } from "../ApiManagement";
 import { useParams } from "react-router-dom";
+import BackButton from "./BackButton";
+import Loading from "./Loading";
+import Error from "./Error";
+import ImageSlider from "./ImageSlider";
+import CreditSlider from "./CreditSlider";
+import MovieInfo from "./MovieInfo";
 
 function MovieDetails() {
     const { id } = useParams<{ id: string }>();
     const idString: string = String(id);
 
-    const { isLoading: isLoadingDetails, data: details } = useQuery(["movieDetails", idString], () => getMovieDetails(idString));
-    const { isLoading: isLoadingCredits, data: credits } = useQuery(["movieCredits", idString], () => getMovieCredits(idString));
-    const { isLoading: isLoadingImages, data: images } = useQuery(["movieImages", idString], () => getMovieImages(idString));
+    const { isLoading: isLoadingDetails, isError: isErrorDetails, data: details } = useQuery(["movieDetails", idString], () => getMovieDetails(idString));
+    const { isLoading: isLoadingCredits, isError: isErrorCredits, data: credits } = useQuery(["movieCredits", idString], () => getMovieCredits(idString));
+    const { isLoading: isLoadingImages, isError: isErrorImages, data: images } = useQuery(["movieImages", idString], () => getMovieImages(idString));
     
     if (isLoadingDetails || isLoadingCredits || isLoadingImages) {
-        return <span>Loading...</span>;
+        return (
+            <Loading />
+        )
     }
 
-    const releaseDate = new Date(details.release_date);
-    const month = releaseDate.toLocaleString("default", { month: "short" });
-    const day = releaseDate.getDate();
-    const year = releaseDate.getFullYear();
-    const date = `${month} ${day}, ${year}`;
-
-    console.log(images);
+    if (isErrorDetails || isErrorCredits || isErrorImages) {
+        return (
+            <Error />
+        )
+    }
 
     return(
-        <div>
-            <img src={"https://image.tmdb.org/t/p/w500" + details.poster_path} />
-            <p>{details.original_title}</p>
-            <p>{details.overview}</p>
-            <p>{details.genres.map((genre: any) => genre.name).join(", ")}</p>
-            <p>{date}</p>
-
-            <p>Credits</p>
-            {credits?.cast?.map((cast: any) => (
-                <div key={cast.cast_id}>
-                    <img src={"https://image.tmdb.org/t/p/w500" + cast.profile_path} />
-                    <p>{cast.name}</p>
-                    <p>{cast.character}</p>
-                </div>
-            ))}
-
-            <p>Images</p>
-            {images?.backdrops?.map((image: any, index: number) => {
-                if (image.iso_639_1 === null) {
-                    return (
-                        <div key={index}>
-                            <img src={"https://image.tmdb.org/t/p/w500" + image.file_path} />
-                        </div>
-                    )
-                }
-            })}
+        <div className="bg-cover bg-center" style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w500${images?.backdrops[0].file_path})`}}>
+            <div className="backdrop-blur-lg bg-slate bg-opacity-40 px-12 pb-12">
+                <BackButton />
+                <MovieInfo details={details} />
+                <CreditSlider credits={credits} />
+                <ImageSlider images={images} />
+            </div>
         </div>
     )
-}
+}   
 
 export default MovieDetails

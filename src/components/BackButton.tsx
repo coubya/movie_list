@@ -1,7 +1,7 @@
 function BackButton() {
     return(
-        <div>
-            <a href={`/`}><p>⬅️ Back</p></a>
+        <div className="pt-12 pb-6">
+            <a href={`/`}><p className="text-white font-normal font-['Roboto']">⬅ Back</p></a>
         </div>
     )
 }

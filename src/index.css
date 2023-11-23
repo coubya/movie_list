@@ -1,28 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato&family=Roboto:wght@100;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-body {
-    margin: 0;
-    padding: 0;
-    background: #1F2937;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
 }
 
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 48px;
-    
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
-
-.title {
-    color: #FFFFFF;
-    font-family: 'Roboto', sans-serif;
-}
-
-.searchBar {
-    border-radius: 9999px;
-    background: #374151;
-}
-
-
-

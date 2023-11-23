@@ -1,6 +1,3 @@
-import { useQuery } from "react-query";
-import { getMoviesFromSearch } from "../ApiManagement";
-
 function SearchBar() {
 
     function handleChange(event: any) {
@@ -17,8 +14,8 @@ function SearchBar() {
     }
 
     return (
-        <div className="searchBar">
-            <input type="text" placeholder="🔎 Search for movie" onChange={handleChange} />
+        <div>
+            <input className="w-80 h-10 pl-4 pt-[11px] pb-2.5 bg-white dark:bg-searchBarColorDark text-searchBarTextColor rounded-full font-normal font-['Roboto']" type="text" placeholder="🔎 Search for movie" onChange={handleChange} />
         </div>
     )
 }
